@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TetrisActive - Help</title>
 </head>
+
 <body>
     <p>MediaPipeを利用した骨格認識で遊ぶテトリスです。</p>
     <p>ゲームを開始するとスポーンとドロップを繰り返します</p>
@@ -19,7 +21,46 @@
             <td>腕を上げる事でテトリミノを操作します。キーボードでも操作できます。</td>
         </tr>
     </table>
+    <div>
+        <form id="select_camera">
+            <label for="camera">カメラを選択</label>
+            <select name="camera" id="camera">
+            </select>
+            <input type="submit" value="保存">
+        </form>
+    </div>
     <p>テトリミノが画面外にはみ出したら終了です。</p>
     <p>ちゃんとしたヘルプは準備中です。</p>
 </body>
+<script>
+    const select_camera = document.getElementById("select_camera");
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+        devices.forEach(device => {
+            if (device.kind === "videoinput") {
+                const option = document.createElement("option");
+                option.value = device.deviceId;
+                option.text = device.label;
+                camera.appendChild(option);
+            }
+        });
+    });
+
+    select_camera.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const camera = document.getElementById("camera");
+        localStorage.setItem("camera", camera.value);
+    });
+
+</script>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    table th,
+    table td {
+        border: solid 1px;
+    }
+</style>
+
 </html>

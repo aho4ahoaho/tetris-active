@@ -1,7 +1,11 @@
 const videoElement = document.createElement("video");
 async function startCamera() {
+	const selectCamera = localStorage.getItem("camera");
+	const cameras = await navigator.mediaDevices.enumerateDevices()
+	const camera = cameras.find((camera) => camera.deviceId === selectCamera);
 	const cameraStream = await navigator.mediaDevices.getUserMedia({
 		video: {
+			deviceId: camera.deviceId ? camera.deviceId : cameras[0].deviceId,
 			width: { min: 320, ideal: 480, max: 1920 },
 			height: { min: 240, ideal: 320, max: 1080 },
 		},
